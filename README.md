@@ -17,9 +17,9 @@ Smartphone users are well aquainted with the "Do Not Disturb" feature. Allow us 
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] Proper use of Markdown
+- [x] Proper use of Markdown
 - [x] A concise and compelling elevator pitch
-- [ ] Description of key features
+- [x] Description of key features
 - [ ] Description of how you will use each technology
 - [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
@@ -31,20 +31,29 @@ With "Do Disturb" it has never been easier to connect with your friends and fami
 
 ![Design image](placeholder.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The chart below shows the relationship between the different pages.
 
 ```mermaid
 sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
+    actor User
+    User->>Login: Enter login information
+    Login->>Available: See which friends are currently available
+    Available-->>Login: Logout
+    Available->>Calendar: Edit personal availability
+    Calendar->>Calendar: Set current status
+    Available-->>Friends: See all friends friends
+    Friends->>Friends: Assign friends to groups
+    Friends->>Friends: Add or delete friends
+
 ```
+
 
 ### Key features
 
 - Login, logout, and register
 - Add friends and see their status (available or not) 
 - Set personal availability with visibility to different groups
+- Edit personal availability as integrated with Google Calendar (third party service)
 - Assign friends to different groups
 
 ### Technologies
