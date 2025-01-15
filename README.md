@@ -2,7 +2,7 @@
 
 [My Notes](notes.md)
 
-Smartphone users are well aquainted with the "Do Not Disturb" feature. Allow us to introduce its companion, Do Disturb! This application lets your friends know when you are available to call and catch up. After logging in, the user sees which friends are available to call, facetime, etc. Users can set their own calendar and availability to let their friends take the turn and reach out as well. This is the perfect and polite solution to bridge the gap between long distance family and friends.
+Smartphone users are well aquainted with the "Do Not Disturb" feature. Allow us to introduce its companion, Do Disturb! This application lets your friends know when you are available to call and catch up. After logging in, the user sees which friends are available to call, facetime, etc. Users can set their own calendar and availability to let their friends take the turn and reach out as well. This is the perfect and polite solution to bridge the gap between family and friends that are either separated by long distances, busy schedules, or both.
 
 ## 🚀 Specification Deliverable
 
