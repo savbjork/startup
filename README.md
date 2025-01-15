@@ -21,7 +21,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [x] A concise and compelling elevator pitch
 - [x] Description of key features
 - [ ] Description of how you will use each technology
-- [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ### Elevator pitch
 
@@ -29,7 +29,7 @@ With "Do Disturb" it has never been easier to connect with your friends and fami
 
 ### Design
 
-![Design image](placeholder.png)
+![Design image](design.jpeg)
 
 The chart below shows the relationship between the different pages.
 
@@ -44,7 +44,6 @@ sequenceDiagram
     Available-->>Friends: See all friends friends
     Friends->>Friends: Assign friends to groups
     Friends->>Friends: Add or delete friends
-
 ```
 
 
