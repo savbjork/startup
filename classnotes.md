@@ -12,3 +12,8 @@
 - Startup stack: react, Caddy 2, nodeJS, mongoDB
 - Allow SSH anywhere, allow other 2 as well
 - AWS account, EC2, rent domain, caddy, submit URL
+
+### 1/21
+- HTML: hyper text markup language
+- Use general only if it doesn't fit elsewhere
+- 
