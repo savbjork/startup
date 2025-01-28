@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <!-- Tell browsers not to scale the viewport automatically -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Do Disturb HTML</title>
+    <title>Friends</title>
 
-    <img src="sun.png" alt="Do Disturb logo" width = 30 />
+    <link rel="icon" href="sun.png" />
   </head>
   <body>
     <header>
@@ -14,7 +14,7 @@
 
       <nav>
         <menu>
-          <li><a href="index.html">Login</a></li>
+          <li><a href="index.html">Logout</a></li>
           <li><a href="home.html">Home</a></li>
           <li><a href="schedule.html">Schedule</a></li>
           <li><a href="friends.html">Friends</a></li>
@@ -25,40 +25,86 @@
     </header>
 
     <main>
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Friend</th>
-            <th>Group</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Adge</td>
-            <td>Family</td>
-            <td>Busy</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Jocey</td>
-            <td>Friendly</td>
-            <td>Free</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Sawyer</td>
-            <td>Family</td>
-            <td>Free</td>
-          </tr>
-        </tbody>
-      </table>
+      <section>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Friend</th>
+              <th>Group</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Adge</td>
+              <td>
+                <fieldset>
+                  <label for="checkbox1">Family</label>
+                  <input type="checkbox" id="checkbox1" name="varCheckbox" value="checkbox1" checked />
+                  <label for="checkbox2">Friendly</label>
+                  <input type="checkbox" id="checkbox2" name="varCheckbox" value="checkbox2" />
+                </fieldset>
+              </td>
+              <td>Busy</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Jocey</td>
+              <td>
+                <fieldset>
+                  <label for="checkbox1">Family</label>
+                  <input type="checkbox" id="checkbox1" name="varCheckbox" value="checkbox1" />
+                  <label for="checkbox2">Friendly</label>
+                  <input type="checkbox" id="checkbox2" name="varCheckbox" value="checkbox2" checked/>
+                </fieldset>
+              </td>
+              <td>Free</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Sawyer</td>
+              <td>
+                <fieldset>
+                  <label for="checkbox1">Family</label>
+                  <input type="checkbox" id="checkbox1" name="varCheckbox" value="checkbox1" checked />
+                  <label for="checkbox2">Friendly</label>
+                  <input type="checkbox" id="checkbox2" name="varCheckbox" value="checkbox2" />
+                </fieldset>
+              </td>
+              <td>Free</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      
+      <br />
+      <hr />
+
+      <section>
+        <table>
+          <p>Groups</p>
+          <ul>
+            <li>Family</li>
+            <li>Friendly</li>
+          </ul>
+            <div>
+              <input type="text" placeholder="New" />
+              <button type="submit">Create</button>
+            </div>
+            
+          </form>
+        </table>
+      </section>
+  
     </main>
 
     <footer>
       <hr />
+      <img src="sun.png" alt="sun" width = 20 />
+      <br />
+
       <span class="text-reset">Author: Savannah Bjorkman</span>
       <br />
       <a href="https://github.com/savbjork/startup/tree/main">GitHub</a>

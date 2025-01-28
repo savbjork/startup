@@ -68,15 +68,15 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** - Four HTML pages that represent ability to login, see friend availability, assign friends groups, and set personal availability.
+- [x] **Proper HTML element usage** - Consistent and proper use of HTML tags.
+- [x] **Links** - Navigation bar at the top of every page allows direction to any other page.
+- [x] **Text** - Text represents friend availability in home and what schedule page will look like.
+- [x] **3rd party API placeholder** - The screenshot of the Google Calendar on the Schedule page represents the third party call to Google Calendar's API.
+- [x] **Images** - Images used as profile photos for user friends and profile picture.
+- [x] **Login placeholder** - Input box and submit button for login.
+- [x] **DB data placeholder** - Friends stored in groups (Friends page) and calendar groups available for different friend groups (Schedule page) represent data pulled from and stored in the database.
+- [x] **WebSocket placeholder** - Friends' current status shown on the Home page represent the realtime status that will be retrieved.
 
 ## 🚀 CSS deliverable
 
