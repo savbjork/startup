@@ -1,0 +1,62 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-width: 375px;
+  background-image: url('background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+header {
+  flex: 0 80px;
+}
+
+main {
+  flex: 1 calc(100vh - 110px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+footer {
+  flex: 0 30px;
+  border-top: solid rgb(182, 182, 182) thin;
+}
+
+menu {
+  flex: 1;
+  display: flex;
+  padding-right: 0.3em;
+  padding-top: 0;
+  /*  overwrite Bootstrap so the menu does not wrap */
+  flex-direction: row !important;
+  list-style: none;
+}
+
+.navbar-brand {
+  padding-left: 0.5em;
+  /* padding-top: 1.2em; */
+  /* border-bottom: solid rgb(182, 182, 182) thin; */ 
+}
+
+menu .nav-item {
+  padding: 0 0.5em;
+}
+
+footer a {
+  float: right;
+}
+
+@media (max-height: 600px) {
+  header {
+    display: none;
+  }
+  footer {
+    display: none;
+  }
+  main {
+    flex: 1 100vh;
+  }
+}
