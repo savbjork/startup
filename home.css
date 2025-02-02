@@ -1,0 +1,39 @@
+.status {
+    align-items: center;
+  }
+
+/* .friend {
+    width: 20px;
+} */
+
+.friend-item { /*currently unused */
+    list-style: none; /* Removes bullet points */
+    text-align: center; /* Centers text */
+    padding: 10px;
+    border: 1px solid #ddd; /* Optional: adds a border like Bootstrap */
+    border-radius: 8px;
+    background-color: #f8f9fa; /* Light background */
+    /* width: 100%; Adjust width to be responsive */
+    max-width: 300px; /* Maximum width */
+    height: 100px; /* Set a fixed height */
+    margin: 10px auto; /* Centers block */
+  }
+
+#friend{
+    width: 50px;  /* Adjust size */
+}
+  
+.friend_picture {
+    width: 50px;  /* Adjust image size */
+    height: 50px;
+    border-radius: 20%; /*Makes image circular */
+    display: block;
+    margin: 0 auto 5px; /* Centers the image */
+  }
+
+@media (max-width: 768px) {
+.status-container {
+    flex-direction: column; /* Stack sections vertically */
+    align-items: center; /* Center them */
+}
+}
