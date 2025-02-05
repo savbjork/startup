@@ -27,17 +27,21 @@
   <body class = "bg-light">
     <header class="container-fluid bg-light">
       <nav class="navbar fixed-top">
-          <a class="navbar-brand text-dark" href="#">Do Disturb<sup>&reg;</sup>
-            <img src="sun.png" alt="sun" width = 30 />
+          <a class="navbar-brand text-dark" href="#">
+            <h2>
+              Do Disturb<sup>&reg;</sup>
+              <img src="sun.png" alt="sun" width = 40 />
+
+            </h2>
           </a>
             <menu class="navbar-nav justify-content-end gap-2 align-items-center">
             <li class="nav-item">
-              <a class="nav-link text-dark" href="index.html">
+              <a class="nav-link text-secondary" href="index.html">
               <i class="bi bi-box-arrow-left" style="font-size: 2rem;"></i>
               </a>
             </li> 
             <li class="nav-item">
-              <a class="nav-link text-secondary" href="home.html">
+              <a class="nav-link text-dark" href="home.html">
               <i class="bi bi-house-door" style="font-size: 2rem;"></i>
               </a>
             </li>
@@ -55,29 +59,32 @@
       </nav>
     </header>
 
-    
-
     <main class="status container-fluid p-0 text-light">
-      <h4>Your friends are free to chat!</h4>
-      <section>
-        <p class="text-success">Available</p>
-        <ul class="list-group list-group-horizontal flex-wrap">
-        <li class="list-group-item">Adge</li>
-        <li class="list-group-item">Caroline</li>
-        <li class="list-group-item">Lily</li>
-        <li class="list-group-item">Adge</li>
-        <li class="list-group-item">Caroline</li>
-        <li class="list-group-item">Lily</li>
-        </ul>
-      </section>
-      <section>
-        <p class="text-danger">Busy</p>
-        <ul class="list-group list-group-horizontal flex-wrap">
-        <li class="list-group-item">Adge</li>
-        <li class="list-group-item">Caroline</li>
-        <li class="list-group-item">Lily</li>
-        </ul>
-      </section>
+      <div class="container">
+        <h4 class="text-center">Your friends are free to chat!</h4>
+        <br/>
+        <div class="row bg-light p-2" style="--bs-bg-opacity: .5;"">
+          <div class="col-md-6 text-white p-3">
+            <h2 class="text-success">Available</h2>
+            <ul class="list-group list-group-horizontal flex-wrap">
+              <li class="list-group-item">Adge</li>
+              <li class="list-group-item">Caroline</li>
+              <li class="list-group-item">Lily</li>
+              <li class="list-group-item">James</li>
+              <li class="list-group-item">Stevie</li>
+              <li class="list-group-item">Martha</li>
+            </ul>
+          </div>
+          <div class="col-md-6 text-white p-3">
+            <h2 class="text-danger">Busy</h2>
+            <ul class="list-group list-group-horizontal flex-wrap">
+              <li class="list-group-item">Glinda</li>
+              <li class="list-group-item">Fiyero</li>
+              <li class="list-group-item">Trisha</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="text-50 text-secondary">
