@@ -2,7 +2,7 @@
   --bs-primary: #4394c6 !important;
 } */
 
-body {
+.body {
   display: flex;
   flex-direction: column;
   min-width: 375px;
