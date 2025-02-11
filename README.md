@@ -95,7 +95,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [x] **Bundled using Vite** - Done!
 - [x] **Components** - Login, home, friends, & schedule are all components with mocks for login, WebSocket.
-- [x] **Router** - Routing between login and home components.
+- [x] **Router** - Routing between components functional.
 
 ## 🚀 React part 2: Reactivity
 
