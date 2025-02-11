@@ -4,27 +4,27 @@ import './schedule.css';
 export function Schedule() {
   return (
     <main>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6 text-white text-center p-3">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-6 text-white text-center p-3">
             <section>
-              <div class="status">
+              <div className="status">
                 <h2>
                   Your Status:
-                <span class="current-status text-danger">Busy</span>
+                <span className="current-status text-danger">Busy</span>
                 </h2>
               </div>
               <div>
-                <label for="change">Available Now? Free Until:</label>
+                <label htmlFor="change">Available Now? Free Until:</label>
                 <input type="time" id="count" placeholder="Free until"/>
-                <button type="submit" class="btn btn-dark">Save</button>
+                <button type="submit" className="btn btn-dark">Save</button>
               </div>
             </section>
             <br/>
             <br/>
             <div>
-              <table class="table bg-light text-dark">
-                <thead class="table-secondary">
+              <table className="table bg-light text-dark">
+                <thead className="table-secondary">
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Calendar Group</th>
@@ -37,9 +37,9 @@ export function Schedule() {
                     <td>School</td>
                     <td>
                       <fieldset>
-                        <label for="checkbox1">Family</label>
-                        <input type="checkbox" id="checkbox1" name="varCheckbox" value="checkbox1" checked />
-                        <label for="checkbox2">BFF</label>
+                        <label htmlFor="checkbox1">Family</label>
+                        <input type="checkbox" id="checkbox1" name="varCheckbox" value="checkbox1" defaultChecked />
+                        <label htmlFor="checkbox2">BFF</label>
                         <input type="checkbox" id="checkbox2" name="varCheckbox" value="checkbox2" />
                       </fieldset>
                     </td>
@@ -49,9 +49,9 @@ export function Schedule() {
                     <td>Work</td>
                     <td>
                       <fieldset>
-                        <label for="checkbox1">Family</label>
-                        <input type="checkbox" id="checkbox1" name="varCheckbox" value="checkbox1" checked />
-                        <label for="checkbox2">BFF</label>
+                        <label htmlFor="checkbox1">Family</label>
+                        <input type="checkbox" id="checkbox1" name="varCheckbox" value="checkbox1" defaultChecked />
+                        <label htmlFor="checkbox2">BFF</label>
                         <input type="checkbox" id="checkbox2" name="varCheckbox" value="checkbox2" />
                       </fieldset>
                     </td>
@@ -61,10 +61,10 @@ export function Schedule() {
                     <td>Personal</td>
                     <td>
                       <fieldset>
-                        <label for="checkbox1">Family</label>
-                        <input type="checkbox" id="checkbox1" name="varCheckbox" value="checkbox1" checked />
-                        <label for="checkbox2">BFF</label>
-                        <input type="checkbox" id="checkbox2" name="varCheckbox" value="checkbox2" checked/>
+                        <label htmlFor="checkbox1">Family</label>
+                        <input type="checkbox" id="checkbox1" name="varCheckbox" value="checkbox1" defaultChecked />
+                        <label htmlFor="checkbox2">BFF</label>
+                        <input type="checkbox" id="checkbox2" name="varCheckbox" value="checkbox2" defaultChecked/>
                       </fieldset>
                     </td>
                   </tr>
@@ -72,10 +72,10 @@ export function Schedule() {
               </table>
             </div>
           </div>
-          <div class="col-md-6
+          <div className="col-md-6
            p-3">
             <div>
-              <img class="calendar" src="calendar.png" alt="calendar"/>
+              <img className="calendar" src="calendar.png" alt="calendar"/>
             </div>
           </div>
         </div>

@@ -25,10 +25,10 @@ export function Friends() {
                     <td>
                       <div className="btn-group btn-group-toggle" data-toggle="buttons">
                       <label className="btn">
-                        <input type="radio" name="group1" id="group1_family" autoComplete="off" checked /> Family
+                        <input type="radio" name="group1" id="group1_family" autoComplete="off" defaultChecked /> Family
                       </label>
                       <label className="btn">
-                        <input type="radio" name="group1" id="group1_BFF" autocomplete="off"/> BFF
+                        <input type="radio" name="group1" id="group1_BFF" autoComplete="off"/> BFF
                       </label>
                       </div>
                     </td>
@@ -40,10 +40,10 @@ export function Friends() {
                     <td>
                       <div className="btn-group btn-group-toggle" data-toggle="buttons">
                       <label className="btn">
-                        <input type="radio" name="group2" id="jocey_family" autocomplete="off" checked/> Family
+                        <input type="radio" name="group2" id="jocey_family" autoComplete="off" defaultChecked/> Family
                       </label>
                       <label className="btn">
-                        <input type="radio" name="group2" id="jocey_BFF" autocomplete="off"/> BFF
+                        <input type="radio" name="group2" id="jocey_BFF" autoComplete="off"/> BFF
                       </label>
                       </div>
                     </td>
@@ -55,10 +55,10 @@ export function Friends() {
                     <td>
                       <div className="btn-group btn-group-toggle" data-toggle="buttons">
                       <label className="btn">
-                        <input type="radio" name="group3" id="sawyer_family" autocomplete="off"/> Family
+                        <input type="radio" name="group3" id="sawyer_family" autoComplete="off"/> Family
                       </label>
                       <label className="btn">
-                        <input type="radio" name="group3" id="sawyer_BFF" autocomplete="off" checked /> BFF
+                        <input type="radio" name="group3" id="sawyer_BFF" autoComplete="off" defaultChecked /> BFF
                       </label>
                       </div>
                     </td>
