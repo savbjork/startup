@@ -93,9 +93,9 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Bundled using Vite** - I did not complete this part of the deliverable.
-- [ ] **Components** - I did not complete this part of the deliverable.
-- [ ] **Router** - Routing between login and voting components.
+- [x] **Bundled using Vite** - Done!
+- [x] **Components** - Login, home, friends, & schedule are all components with mocks for login, WebSocket.
+- [x] **Router** - Routing between login and home components.
 
 ## 🚀 React part 2: Reactivity
 

@@ -70,7 +70,9 @@ I also used SVG to make the icon and logo for the app. This turned out to be a p
 
 ## React Part 1: Routing
 
-Setting up Vite and React was pretty simple. I had a bit of trouble because of conflicting CSS. This isn't as straight forward as you would find with Svelte or Vue, but I made it work in the end. If there was a ton of CSS it would be a real problem. It sure was nice to have the code structured in a more usable way.
+chmod +x deployReact.sh : allows me to use deployReact for the first time
+./deployReact.sh -k ../key/production.pem -h dodisturb.click -s simon: command run in the simon-react-p1 file to make it update on the site
+npm run dev: command to basically run Live Server through Vite (o: to open)
 
 ## React Part 2: Reactivity
 
