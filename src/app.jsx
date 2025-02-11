@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-//TODO: add icons
+import { BsBoxArrowLeft, BsHouseDoor, BsCalendarWeek, BsPerson } from "react-icons/bs";
 import './app.css';
 
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
@@ -22,37 +22,26 @@ export default function App() {
                             </h2>
                         </a>
                             <menu className="navbar-nav justify-content-end gap-2 align-items-center">
-                            {/* <li className="nav-item">
-                            <a className="nav-link text-secondary" href="index.html">
-                            <i className="bi bi-box-arrow-left" style={{ fontSize: '2rem' }}></i>
-                            </a>
-                            </li> 
                             <li className="nav-item">
-                            <a className="nav-link text-secondary" href="home.html">
-                            <i className="bi bi-house-door" style={{ fontSize: '2rem' }}></i>
-                            </a>
+                                <NavLink className='nav-link' to=''>
+                                <BsBoxArrowLeft size="2rem" />
+                                </NavLink>
                             </li>
                             <li className="nav-item">
-                            <a className="nav-link text-secondary" href="schedule.html">
-                            <i className="bi bi-calendar-week" style={{ fontSize: '2rem' }}></i>
-                            </a>
+                                <NavLink className='nav-link' to='home'>
+                                <BsHouseDoor size="2rem" />
+                                </NavLink>
+                                
                             </li>
                             <li className="nav-item">
-                            <a className="nav-link text-dark" href="friends.html">
-                            <i className="bi bi-person" style={{ fontSize: '2rem' }}></i>
-                            </a>
-                            </li> */}
-                            <li className='nav-item'>
-                                <NavLink className='nav-link' to=''>Login</NavLink>
+                                <NavLink className='nav-link' to='schedule'>
+                                <BsCalendarWeek size="2rem" />
+                                </NavLink>
                             </li>
-                            <li className='nav-item'>
-                                <NavLink className='nav-link' to='home'>Home</NavLink>
-                            </li>
-                            <li className='nav-item'>
-                                <NavLink className='nav-link' to='schedule'>Schedule</NavLink>
-                            </li>
-                            <li className='nav-item'>
-                                <NavLink className='nav-link' to='friends'>Friends</NavLink>
+                            <li className="nav-item">
+                                <NavLink className='nav-link' to='friends'>
+                                <BsPerson size="2rem" />
+                                </NavLink>
                             </li>
                             </menu>
                         </nav>
