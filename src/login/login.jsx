@@ -6,7 +6,7 @@ export function Login() {
       <div>
         <h1>WELCOME</h1>
         <h3>Friends against phone tag!</h3>
-        <form method="get" action="home.html">
+        <form method="get" action="home">
           <div className="input-group mb-3">
             <input className="form-control" type="text" placeholder="your@email.com" />
           </div>
