@@ -10,6 +10,11 @@ import { Home } from './home/home';
 import { Schedule } from './schedule/schedule';
 
 export default function App() {
+
+    //temporary mock database information
+    const friends = ['Adrienne','Steve','Abby','Kevin','Sawyer'];
+    localStorage.setItem('friends', JSON.stringify(friends));
+
     return (
         <BrowserRouter>
             <div className='body bg-dark text-light'>

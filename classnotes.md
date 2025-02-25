@@ -16,3 +16,6 @@
 ### 1/21
 - HTML: hyper text markup language
 - Use general only if it doesn't fit elsewhere
+
+### 2/13
+- React is reactive!!: properties to components, state on components

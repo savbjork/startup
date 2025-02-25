@@ -2,29 +2,86 @@ import React from 'react';
 import './home.css';
 
 export function Home() {
+  const [friends, setFriends] = React.useState([]);
+  const [availFriend, setAvailFriend] = React.useState([]);
+  const [busyFriend, setBusyFriend] = React.useState([]);
+
+  React.useEffect(() => {
+    const friendsText = localStorage.getItem('friends');
+    if (friendsText) {
+      console.log('setting friends');
+      setFriends(JSON.parse(friendsText));
+    }
+  }
+  , []);
+
+  React.useEffect(() => {
+    if (friends.length) {
+      updateFriends();
+    }
+    const interval = setInterval(() => updateFriends(), 60000);
+    return () => clearInterval(interval);
+  }, [friends]);
+
+  function updateFriends() {
+    const avail = [];
+    const busy = [];
+    if (friends.length) {
+      console.log('friends');
+      for (const friend of friends) {
+        const status = getFriendStatus(friend);
+
+        if (status == 'available') {
+          avail.push(
+            <li className="list-group-item" key={friend}>{friend}</li>
+          );
+        } else {
+          busy.push(
+            <li className="list-group-item" key={friend}>{friend}</li>
+          );
+        }
+      }
+    } else {
+      console.log('no friends');
+      avail.push(
+        <li className="list-group-item">Add a friend!</li>
+      );
+    }
+    setAvailFriend(avail);
+    setBusyFriend(busy);
+  }
+  
+
+  function getFriendStatus(friend) {
+    // TODO: replace with database call
+    const random = Math.floor(Math.random() * 2);
+    if (random === 0) {
+      return 'available';
+    }
+    else {
+      return 'busy';
+    }
+  }
+
   return (
     <main className="status container-fluid p-0 text-light">
       <div className="container">
-        <h4 className="text-center">Your friends are free to chat!</h4>
-        <br/>
+        {(availFriend.length > 0) && 
+        <>
+          <h4 className="text-center">Your friends are free to chat!</h4>
+          <br/>
+        </>}
         <div className="row bg-light p-2" style={{ "--bs-bg-opacity": ".5" }}>
           <div className="col-md-6 text-white p-3">
             <h2 className="text-success">Available</h2>
             <ul className="list-group list-group-horizontal flex-wrap">
-              <li className="list-group-item">Adge</li>
-              <li className="list-group-item">Caroline</li>
-              <li className="list-group-item">Lily</li>
-              <li className="list-group-item">James</li>
-              <li className="list-group-item">Stevie</li>
-              <li className="list-group-item">Martha</li>
+              {availFriend}
             </ul>
           </div>
           <div className="col-md-6 text-white p-3">
             <h2 className="text-danger">Busy</h2>
             <ul className="list-group list-group-horizontal flex-wrap">
-              <li className="list-group-item">Glinda</li>
-              <li className="list-group-item">Fiyero</li>
-              <li className="list-group-item">Trisha</li>
+              {busyFriend}
             </ul>
           </div>
         </div>
