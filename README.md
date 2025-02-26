@@ -99,7 +99,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 ## 🚀 React part 2: Reactivity
 
-For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed. I used JavaScript and React so that the application completely works for a single user with any username and password (that is not empty). I also added placeholders for future technology.
 
 - [x] **All functionality implemented or mocked out** - I did complete this part of the deliverable (Mock 3rd party call: Google Calendar screenshot; setInterval: mock retrieving friend status every minute)
 - [x] **Hooks** - I did complete this part of the deliverable. (useState: on Friends, Login, Home, and Schedule;useEffect: on Friends, Login, Home, and Schedule)
