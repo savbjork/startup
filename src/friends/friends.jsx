@@ -1,5 +1,7 @@
 import React from 'react';
 import './friends.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BsTrash3 } from "react-icons/bs";
 
 
 export function Friends() {
@@ -19,7 +21,10 @@ export function Friends() {
       //console.log(friend);
       friendRows.push(
         <tr key={friend}>
-          <td>{friend}</td>
+          <td className="d-flex justify-content-between">
+        {friend}
+        <BsTrash3 size="1rem" className="text-right" onClick={deleteFriend}/>
+          </td>
         </tr>
       );
     }
@@ -44,6 +49,20 @@ export function Friends() {
       //clear input
       document.getElementById('addFriend').value = '';
     }
+  }
+
+  function deleteFriend(e){
+    const friendName = e.target.parentElement.textContent;
+    //console.log(friendName);
+    const newFriends = [];
+    for (const friend of friends) {
+      if (friend != friendName) {
+        console.log('found friend');
+        newFriends.push(friend);
+      }
+    }
+    localStorage.setItem('friends', JSON.stringify(newFriends));
+    setFriends(newFriends);
   }
 
   return (

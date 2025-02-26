@@ -101,8 +101,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [x] **All functionality implemented or mocked out** - I did complete this part of the deliverable (Mock 3rd party call: Google Calendar screenshot; setInterval: mock retrieving friend status every minute)
+- [x] **Hooks** - I did complete this part of the deliverable. (useState: on Friends, Login, Home, and Schedule;useEffect: on Friends, Login, Home, and Schedule)
 
 ## 🚀 Service deliverable
 
