@@ -7,30 +7,32 @@ export function Schedule() {
   
 
   React.useEffect(() => {
-    setStatus(getStatus().status);
+    console.log('useEffect');
+    setStatus(getStatus());
   }, [avail]);
 
   function getStatus() {
+    //console.log(status);
     if (avail){
-      //const currentDate = new Date();
+      //console.log('avail:', new Date(avail));
+      //console.log(new Date());
       if (new Date(avail) > new Date()){
-        return { status : "AVAILABLE" };
+        return "AVAILABLE";
       }
     }
-    // This will be replaced with a 3rd party service call
-    return { status : "BUSY" };
+    return "BUSY"; // This will be replaced with a 3rd party service call
   }
 
   function addAvail() {
-    const avail = document.getElementById('availUntil').value;
-    console.log(avail);
-    if (avail){
-      setAvail(avail);
-      setStatus("AVAILABLE");
+    const timeInput = document.getElementById('availUntil').value;
+    const today = new Date();
+    const time = new Date(today.toDateString() + ' ' + timeInput);
+    //console.log(time);
+    if (time){
+      console.log('setting avail');
+      setAvail(time);
     }
   }
-
-
 
   return (
     <main>
@@ -43,7 +45,7 @@ export function Schedule() {
               <span className="current-status"> {status}</span>
               </h2>
             </div>
-            { status === 'BUSY' &&
+            { status == 'BUSY' &&
             <div>
               <label htmlFor="change">Available Now? Free Until:</label>
               <input type="time" id="availUntil" placeholder="Free until"/>
@@ -56,9 +58,7 @@ export function Schedule() {
           <div className="text-center">
             <img className="calendar" src="calendar2.png" alt="calendar"/>
           </div>
-          </div>
-        {/* </div>
-      </div> */}
+      </div>
     </main>
   );
 }

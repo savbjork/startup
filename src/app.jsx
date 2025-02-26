@@ -15,6 +15,8 @@ export default function App() {
     const friends = ['Adrienne','Steve','Abby','Kevin','Sawyer'];
     localStorage.setItem('friends', JSON.stringify(friends));
 
+    const [userName, setUserName] = React.useState(localStorage.getItem('userName'));
+
     return (
         <BrowserRouter>
             <div className='body bg-dark text-light'>
@@ -27,34 +29,41 @@ export default function App() {
                             </h2>
                         </a>
                             <menu className="navbar-nav justify-content-end gap-2 align-items-center">
-                            <li className="nav-item">
+                            
+                            {userName && (
+                                <>
+                                <li className="nav-item">
                                 <NavLink className='nav-link' to=''>
                                 <BsBoxArrowLeft size="2rem" />
                                 </NavLink>
-                            </li>
-                            <li className="nav-item">
+                                </li>  
+
+                                <li className="nav-item">
                                 <NavLink className='nav-link' to='home'>
                                 <BsHouseDoor size="2rem" />
                                 </NavLink>
                                 
-                            </li>
-                            <li className="nav-item">
-                                <NavLink className='nav-link' to='schedule'>
-                                <BsCalendarWeek size="2rem" />
-                                </NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink className='nav-link' to='friends'>
-                                <BsPerson size="2rem" />
-                                </NavLink>
-                            </li>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink className='nav-link' to='schedule'>
+                                    <BsCalendarWeek size="2rem" />
+                                    </NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink className='nav-link' to='friends'>
+                                    <BsPerson size="2rem" />
+                                    </NavLink>
+                                </li>
+                                </>
+                            )}
+                            
                             </menu>
                         </nav>
                     </header>
 
                 <Routes>
-                    <Route path='/' element={<Login />} exact />
-                    <Route path='/home' element={<Home />} />
+                    <Route path='/' element={<Login setUserName={setUserName}/>} exact />
+                    <Route path='/home' element={<Home userName={userName}/>} />
                     <Route path='/schedule' element={<Schedule />} />
                     <Route path='/friends' element={<Friends />} />
                     <Route path='*' element={<NotFound />} />
