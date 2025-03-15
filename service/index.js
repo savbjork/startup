@@ -49,7 +49,7 @@ apiRouter.post('/auth/login', async (req, res) => {
       return;
     }
   }
-  res.status(401).send({ msg: 'Unauthorized' });
+  res.status(401).send({ msg: 'ONE Unauthorized' });
 });
 
 // DeleteAuth logout a user
@@ -68,7 +68,7 @@ const verifyAuth = async (req, res, next) => {
   if (user) {
     next();
   } else {
-    res.status(401).send({ msg: 'Unauthorized' });
+    res.status(401).send({ msg: 'TWO Unauthorized' });
   }
 };
 

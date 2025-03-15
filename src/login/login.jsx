@@ -1,39 +1,42 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 
-export function Login({setUserName}) {
-  const [password, setPassword] = React.useState('');
+export function Login({ setUserName }) {
+  const [userName, setUserNameState] = useState('');
+  const [password, setPassword] = useState('');
+  const [errMessage, setErrMessage] = useState(null);
+  const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
     localStorage.removeItem('userName');
     setUserName('');
-  }
-  , []);
+  }, [setUserName]);
 
-  function loginUser(e){
-    const userName = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    if (!userName || !password) {
-      e.preventDefault();
-      return;
-    }
-    //some validation would go here with database: username + password
-
-    setUserName(userName);
-    localStorage.setItem('userName', userName); 
+  async function loginUser() {
+    loginOrCreate(`/api/auth/login`);
   }
 
-  function createUser(e){
-    const userName = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    if (!userName || !password) {
-      e.preventDefault();
-      return;
+  async function createUser() {
+    loginOrCreate(`/api/auth/create`);
+  }
+
+  async function loginOrCreate(endpoint) {
+    const response = await fetch(endpoint, {
+      method: 'post',
+      body: JSON.stringify({ email: userName, password: password }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    });
+    if (response?.status === 200) {
+      localStorage.setItem('userName', userName);
+      setUserName(userName);
+      navigate('/home'); // Redirect after successful login
+    } else {
+      const body = await response.json();
+      setErrMessage(`⚠ Error: ${body.msg}`);
     }
-    //add DB validation
-    setUserName(userName);
-    localStorage.setItem('userName', userName);
-    
   }
 
   return (
@@ -41,16 +44,21 @@ export function Login({setUserName}) {
       <div>
         <h1>WELCOME</h1>
         <h3>Friends against phone tag!</h3>
-        <form method="get" action="/home">
-          <div className="input-group mb-3">
-            <input className="form-control" id="username" type="text" placeholder="Username" />
-          </div>
-          <div className="input-group mb-3">
-            <input className="form-control" id="password" type="password" placeholder="Password" />
-          </div>
-          <Link to="/home"  className="btn btn-dark" onClick={loginUser}>Login</Link>
-          <Link to="/home" className="btn btn-secondary" onClick={createUser}>Create</Link>
-        </form>
+        <div className='input-group mb-3'>
+          <input className='form-control' type='text' value={userName} onChange={(e) => setUserNameState(e.target.value)} placeholder='Username' />
+        </div>
+        <div className='input-group mb-3'>
+          <input className='form-control' type='password' onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+        </div>
+
+        {errMessage && <div className="alert alert-danger mt-3">{errMessage}</div>}
+
+        <Button variant='dark' onClick={loginUser} disabled={!userName || !password}>
+          Login
+        </Button>
+        <Button variant='secondary' onClick={createUser} disabled={!userName || !password}>
+          Create
+        </Button>
       </div>
     </main>
   );
