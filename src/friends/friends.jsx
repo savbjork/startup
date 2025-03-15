@@ -1,68 +1,76 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './friends.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BsTrash3 } from "react-icons/bs";
 
-
 export function Friends() {
-  const [friends, setFriends] = React.useState([]);
+  const [friends, setFriends] = useState([]);
 
-  React.useEffect(() => {
-    const friendsText = localStorage.getItem('friends');
-    if (friendsText) {
-      setFriends(JSON.parse(friendsText));
-    }
+  // Fetch friends when the component mounts
+  useEffect(() => {
+    fetchFriends();
   }, []);
 
-  const friendRows = [];
-  if (friends) {
-    //console.log('friends')
-    for (const friend of friends) {
-      //console.log(friend);
-      friendRows.push(
-        <tr key={friend}>
-          <td className="d-flex justify-content-between">
-        {friend}
-        <BsTrash3 size="1rem" className="text-right" onClick={deleteFriend}/>
-          </td>
-        </tr>
-      );
-    }
-  }
-  // else {
-  //   console.log('no friends');
-  // }
-
-  function addFriend() {
-    const friendInput = document.getElementById('addFriend').value;
-    if (friendInput){
-      //make sure friend not already in
-      for (const friend of friends) {
-        if (friend == friendInput) {
-          return;
-        }
+  async function fetchFriends() {
+    try {
+      const response = await fetch('/api/getFriends', {
+        method: 'GET',
+        credentials: 'include',
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      //console.log('setting friend');
-      localStorage.setItem('friends', JSON.stringify([...friends, friendInput]));
-      setFriends([...friends, friendInput]);
-
-      //clear input
-      document.getElementById('addFriend').value = '';
+      const data = await response.json();
+      console.log("Fetched friends:", data); // ✅ Debugging output
+      setFriends(Array.isArray(data) ? data : []); // ✅ Ensure data is an array
+    } catch (error) {
+      console.error("Error fetching friends:", error);
     }
   }
 
-  function deleteFriend(e){
-    const friendName = e.target.parentElement.textContent;
-    //console.log(friendName);
-    const newFriends = [];
-    for (const friend of friends) {
-      if (friend != friendName) {
-        console.log('found friend');
-        newFriends.push(friend);
+  async function addFriend() {
+    const friendInput = document.getElementById('addFriend').value.trim();
+    if (!friendInput) return;
+  
+    try {
+      const response = await fetch('/api/addFriend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ name: friendInput }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to add friend");
       }
+  
+      const updatedFriends = await response.json();
+      console.log("Updated friends list:", updatedFriends); // ✅ Debugging output
+      setFriends(Array.isArray(updatedFriends) ? updatedFriends : []); // ✅ Ensure correct UI update
+  
+      document.getElementById('addFriend').value = ''; // Clear input
+    } catch (error) {
+      console.error("Error adding friend:", error);
     }
-    localStorage.setItem('friends', JSON.stringify(newFriends));
-    setFriends(newFriends);
+  }
+
+  async function deleteFriend(friendName) {
+    try {
+      const response = await fetch(`/api/deleteFriend/${friendName}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete friend");
+      }
+
+      const updatedFriends = await response.json();
+      console.log("Updated friends list after delete:", updatedFriends); // ✅ Debugging output
+      setFriends(Array.isArray(updatedFriends.friends) ? updatedFriends.friends : []); // ✅ Update UI immediately
+    } catch (error) {
+      console.error("Error deleting friend:", error);
+    }
   }
 
   return (
@@ -71,19 +79,31 @@ export function Friends() {
         <div className="row">
           <h2 className="text-light text-center">Friends</h2>
           <section>
-            <table className="table bg-light text-dark">
-              <thead className="table-secondary">
-                <tr>
-                  <th scope="col">Name</th>
-                </tr>
-              </thead>
-              <tbody>
-                {friendRows}
-              </tbody>
-            </table>
-            <div className="d-flex">
+            {friends.length > 0 ? (
+              <table className="table bg-light text-dark">
+                <thead className="table-secondary">
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {friends.map((friend, index) => (
+                    <tr key={index}> {/* ✅ Changed key to index for reliability */}
+                      <td>{friend.name || friend}</td> {/* ✅ Handle case where API returns strings instead of objects */}
+                      <td className="text-end">
+                        <BsTrash3 size="1rem" className="cursor-pointer" onClick={() => deleteFriend(friend.name || friend)} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p className="text-center text-light">No friends found.</p>
+            )}
+            <div className="d-flex justify-content-center mt-3">
               <input id="addFriend" type="text" className="form-control w-auto" placeholder="Username" />
-              <button type="submit" className="btn btn-dark ms-2" onClick={() => addFriend()}>Add</button>
+              <button type="submit" className="btn btn-dark ms-2" onClick={addFriend}>Add</button>
             </div>
           </section>
         </div>

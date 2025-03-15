@@ -11,11 +11,22 @@ import { Schedule } from './schedule/schedule';
 
 export default function App() {
 
-    //temporary mock database information
-    const friends = ['Adrienne','Steve','Abby','Kevin','Sawyer'];
-    localStorage.setItem('friends', JSON.stringify(friends));
 
     const [userName, setUserName] = React.useState(localStorage.getItem('userName'));
+
+    function logout() {
+        fetch(`/api/auth/logout`, {
+            method: 'delete',
+            credentials: 'include',
+        })
+            .catch(() => {
+            // Logout failed. Assuming offline
+            })
+            .finally(() => {
+            localStorage.removeItem('userName');
+            setUserName(null);
+            });
+        }
 
     return (
         <BrowserRouter>
@@ -33,7 +44,7 @@ export default function App() {
                             {userName && (
                                 <>
                                 <li className="nav-item">
-                                <NavLink className='nav-link' to=''>
+                                <NavLink className='nav-link' to='' onClick={() => logout()}>
                                 <BsBoxArrowLeft size="2rem" />
                                 </NavLink>
                                 </li>  

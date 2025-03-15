@@ -6,9 +6,8 @@ const app = express();
 
 const authCookieName = 'token';
 
-// The scores and users are saved in memory and disappear whenever the service is restarted.
+// Users are stored with their own friends list
 let users = [];
-let scores = [];
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
@@ -32,7 +31,6 @@ apiRouter.post('/auth/create', async (req, res) => {
     res.status(409).send({ msg: 'Existing user' });
   } else {
     const user = await createUser(req.body.email, req.body.password);
-
     setAuthCookie(res, user.token);
     res.send({ email: user.email });
   }
@@ -40,6 +38,7 @@ apiRouter.post('/auth/create', async (req, res) => {
 
 // GetAuth login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
+  console.log("Received cookies: req.cookies", req.cookies);
   const user = await findUser('email', req.body.email);
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
@@ -64,75 +63,102 @@ apiRouter.delete('/auth/logout', async (req, res) => {
 
 // Middleware to verify that the user is authorized to call an endpoint
 const verifyAuth = async (req, res, next) => {
+  console.log("Verifying auth: req.cookies", req.cookies);
   const user = await findUser('token', req.cookies[authCookieName]);
   if (user) {
+    req.user = user; // Attach user to request for easier access
     next();
   } else {
     res.status(401).send({ msg: 'TWO Unauthorized' });
   }
 };
 
-// GetScores
-apiRouter.get('/scores', verifyAuth, (_req, res) => {
-  res.send(scores);
+// Get Friends for Logged-In User
+apiRouter.get('/getFriends', verifyAuth, (req, res) => {
+  console.log("Getting friends for user:", req.user.email, req.user.friends);
+  res.send(req.user.friends || []);
 });
 
-// SubmitScore
-apiRouter.post('/score', verifyAuth, (req, res) => {
-  scores = updateScores(req.body);
-  res.send(scores);
-});
-
-// Default error handler
-app.use(function (err, req, res, next) {
-  res.status(500).send({ type: err.name, message: err.message });
-});
-
-// Return the application's default page if the path is unknown
-app.use((_req, res) => {
-  res.sendFile('index.html', { root: 'public' });
-});
-
-// updateScores considers a new score for inclusion in the high scores.
-function updateScores(newScore) {
-  let found = false;
-  for (const [i, prevScore] of scores.entries()) {
-    if (newScore.score > prevScore.score) {
-      scores.splice(i, 0, newScore);
-      found = true;
-      break;
-    }
+// Add a Friend for Logged-In User
+apiRouter.post('/addFriend', verifyAuth, (req, res) => {
+  console.log("Adding friend for user:", req.user.email, "->", req.body.name);
+  if (!req.body.name || req.user.friends.includes(req.body.name)) {
+    return res.status(400).send({ msg: 'Invalid or existing friend' });
   }
+  req.user.friends.push(req.body.name);
+  res.send(req.user.friends);
+});
 
-  if (!found) {
-    scores.push(newScore);
+// Delete a Friend for Logged-In User
+apiRouter.delete('/deleteFriend/:friendName', verifyAuth, (req, res) => {
+  console.log("Deleting friend for user:", req.user.email, "->", req.params.friendName);
+  const friendName = req.params.friendName;
+  const index = req.user.friends.indexOf(friendName);
+  
+  if (index !== -1) {
+    req.user.friends.splice(index, 1);
+    res.send({ msg: `${friendName} removed`, friends: req.user.friends });
+  } else {
+    res.status(404).send({ msg: 'Friend not found' });
   }
-
-  if (scores.length > 10) {
-    scores.length = 10;
-  }
-
-  return scores;
-}
+});
 
 async function createUser(email, password) {
   const passwordHash = await bcrypt.hash(password, 10);
-
   const user = {
     email: email,
     password: passwordHash,
     token: uuid.v4(),
+    friends: [], // ✅ Each user now has their own friends list
+    availability: []
   };
   users.push(user);
-
   return user;
 }
 
 async function findUser(field, value) {
   if (!value) return null;
-
   return users.find((u) => u[field] === value);
 }
+
+//stuff for availability
+apiRouter.get('/getAvailability', verifyAuth, (req, res) => {
+  console.log("Getting availability for user:", req.user.email, req.user.availability);
+  res.send(req.user.availability || []);
+});
+
+apiRouter.post('/addAvailability', verifyAuth, (req, res) => {
+  console.log("Adding availability for user:", req.user.email, "->", req.body);
+  if (!req.body.day || !req.body.start || !req.body.end) {
+    return res.status(400).send({ msg: 'Invalid availability slot' });
+  }
+
+  req.user.availability.push({
+    day: req.body.day,
+    start: req.body.start,
+    end: req.body.end
+  });
+
+  console.log("Updated availability:", req.user.availability);
+  res.send(req.user.availability);
+});
+
+apiRouter.delete('/deleteAvailability/:day/:start/:end', verifyAuth, (req, res) => {
+  console.log("Deleting availability for user:", req.user.email, "->", req.params);
+  const { day, start, end } = req.params;
+  const index = req.user.availability.findIndex(slot =>
+    slot.day === day && slot.start === start && slot.end === end
+  );
+
+  if (index !== -1) {
+    req.user.availability.splice(index, 1);
+    res.send(req.user.availability);
+  } else {
+    res.status(404).send({ msg: 'Availability slot not found' });
+  }
+});
+
+
 
 // setAuthCookie in the HTTP response
 function setAuthCookie(res, authToken) {
