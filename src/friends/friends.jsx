@@ -69,7 +69,7 @@ export function Friends() {
     <main>
       <div className="container">
         <div className="row">
-            <h2 className="text-light text-center">Friends</h2>
+          <h2 className="text-light text-center">Friends</h2>
           <section>
             <table className="table bg-light text-dark">
               <thead className="table-secondary">
@@ -80,9 +80,11 @@ export function Friends() {
               <tbody>
                 {friendRows}
               </tbody>
-          </table>
-          <input id="addFriend" type="text"  placeholder="Username" />
-          <button type="submit" className="btn btn-dark" onClick={()=> addFriend()}>Add</button>
+            </table>
+            <div className="d-flex">
+              <input id="addFriend" type="text" className="form-control w-auto" placeholder="Username" />
+              <button type="submit" className="btn btn-dark ms-2" onClick={() => addFriend()}>Add</button>
+            </div>
           </section>
         </div>
       </div>
