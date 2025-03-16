@@ -1,77 +1,59 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './home.css';
 
-export function Home(userName) {
-  const [friends, setFriends] = React.useState([]);
-  const [availFriend, setAvailFriend] = React.useState([]);
-  const [busyFriend, setBusyFriend] = React.useState([]);
-  
-  React.useEffect(() => {
-    const friendsText = localStorage.getItem('friends');
-    if (friendsText) {
-      //console.log('setting friends');
-      setFriends(JSON.parse(friendsText));
-    }
-  }
-  , []);
+export function Home({ userName, token }) {
+  const [availFriend, setAvailFriend] = useState([]);
+  const [busyFriend, setBusyFriend] = useState([]);
 
-  React.useEffect(() => {
-    if (friends.length) {
-      updateFriends();
-    }
-    const interval = setInterval(() => updateFriends(), 60000); //gets friend status every minute
+  useEffect(() => {
+    updateFriends(userName,token); // Fetch friends initially
+    const interval = setInterval(updateFriends(userName,token), 60000); // Refresh every minute
     return () => clearInterval(interval);
-  }, [friends]);
+    
+  }, [userName, token]);
 
-  function updateFriends() { //web socket temp
-    const avail = [];
-    const busy = [];
-    if (friends.length) {
-      //console.log('friends');
-      for (const friend of friends) {
-        const status = getFriendStatus(friend);
-        //console.log(friend, status);
-        if (status == 'available') {
-          avail.push(
-            <li className="list-group-item" key={friend}>{friend}</li>
-          );
-        } else {
-          busy.push(
-            <li className="list-group-item" key={friend}>{friend}</li>
-          );
-        }
+  async function updateFriends(user, authToken) {
+    try {
+      const response = await fetch('/api/getFriendStatuses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Securely send the token
+        credentials: 'include',
+        body: JSON.stringify({user:user}),
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch friend statuses");
       }
-    } else {
-      //console.log('no friends');
-      avail.push(
-        <li className="list-group-item">Add a friend!</li>
-      );
-    }
-    setAvailFriend(avail);
-    setBusyFriend(busy);
-  }
-  
 
-  function getFriendStatus(friend) {
-    // TODO: replace with database call
-    const random = Math.floor(Math.random() * 2);
-    if (random === 0) {
-      return 'available';
-    }
-    else {
-      return 'busy';
+      const data = await response.json();
+
+      const avail = data.available.map(friend => (
+        <li className="list-group-item" key={friend}>{friend}</li>
+      ));
+      const busy = data.busy.map(friend => (
+        <li className="list-group-item" key={friend}>{friend}</li>
+      ));
+
+      setAvailFriend(avail.length > 0 ? avail : [<li className="list-group-item" key="none">No friends available</li>]);
+      setBusyFriend(busy);
+    } catch (error) {
+      console.error("Error updating friend statuses:", error);
     }
   }
 
   return (
     <main className="status container-fluid p-0 text-light">
       <div className="container">
-      <h2 className="text-center">WELCOME {userName.userName}</h2>
-        {(availFriend.length > 0) && 
-        <>
-          <h4 className="text-center">Your friends are free to chat!</h4>
-          <br/>
-        </>}
+        <h2 className="text-center">WELCOME {userName}</h2>
+        {availFriend.length > 0 && (
+          <>
+            <h4 className="text-center">Your friends are free to chat!</h4>
+            <br />
+          </>
+        )}
         <div className="row bg-light p-2" style={{ "--bs-bg-opacity": ".5" }}>
           <div className="col-md-6 text-white p-3">
             <h2 className="text-success">Available</h2>

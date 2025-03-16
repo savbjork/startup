@@ -109,8 +109,13 @@ async function createUser(email, password) {
     email: email,
     password: passwordHash,
     token: uuid.v4(),
-    friends: [], // ✅ Each user now has their own friends list
-    availability: []
+    friends: ['one', 'two'], // user now starts with two friends
+    availWeekly: [
+      { day: 'Monday', start: '09:00', end: '11:00' },
+      { day: 'Wednesday', start: '09:00', end: '11:00' },
+      { day: 'Friday', start: '09:00', end: '11:00' }
+    ], // weekly availability
+    availNow: '', // current availability
   };
   users.push(user);
   return user;
@@ -122,42 +127,95 @@ async function findUser(field, value) {
 }
 
 //stuff for availability
-apiRouter.get('/getAvailability', verifyAuth, (req, res) => {
-  console.log("Getting availability for user:", req.user.email, req.user.availability);
-  res.send(req.user.availability || []);
+// Get current availability ("Available Now")
+apiRouter.get('/getAvailabilityNow', verifyAuth, (req, res) => {
+  console.log("Fetching current availability for:", req.user.email);
+  res.send({ availableUntil: req.user.availableUntil || null });
 });
 
-apiRouter.post('/addAvailability', verifyAuth, (req, res) => {
-  console.log("Adding availability for user:", req.user.email, "->", req.body);
+// Set "Available Now" status
+apiRouter.post('/setAvailabilityNow', verifyAuth, (req, res) => {
+  console.log("Setting current availability for:", req.user.email, "->", req.body);
+  if (!req.body.availableUntil) {
+    return res.status(400).send({ msg: 'Invalid available until time' });
+  }
+  req.user.availableUntil = req.body.availableUntil;
+  res.send({ availableUntil: req.user.availableUntil });
+});
+
+// Get weekly availability
+apiRouter.get('/getAvailabilityWeekly', verifyAuth, (req, res) => {
+  console.log("Fetching weekly availability for:", req.user.email);
+  res.send(req.user.availWeekly || []);
+});
+
+// Add a weekly availability slot
+apiRouter.post('/addAvailabilityWeekly', verifyAuth, (req, res) => {
+  console.log("Adding weekly availability for user:", req.user.email, "->", req.body);
   if (!req.body.day || !req.body.start || !req.body.end) {
     return res.status(400).send({ msg: 'Invalid availability slot' });
   }
-
-  req.user.availability.push({
+  if (!req.user.availWeekly) {
+    req.user.availWeekly = [];
+  }
+  req.user.availWeekly.push({
     day: req.body.day,
     start: req.body.start,
     end: req.body.end
   });
-
-  console.log("Updated availability:", req.user.availability);
-  res.send(req.user.availability);
+  res.send(req.user.availWeekly);
 });
 
-apiRouter.delete('/deleteAvailability/:day/:start/:end', verifyAuth, (req, res) => {
-  console.log("Deleting availability for user:", req.user.email, "->", req.params);
+// Delete a weekly availability slot
+apiRouter.delete('/deleteAvailabilityWeekly/:day/:start/:end', verifyAuth, (req, res) => {
+  console.log("Deleting weekly availability for user:", req.user.email, "->", req.params);
   const { day, start, end } = req.params;
-  const index = req.user.availability.findIndex(slot =>
-    slot.day === day && slot.start === start && slot.end === end
+  if (!req.user.availWeekly) {
+    return res.status(404).send({ msg: 'No availability found' });
+  }
+  req.user.availWeekly = req.user.availWeekly.filter(slot =>
+    !(slot.day === day && slot.start === start && slot.end === end)
   );
+  res.send(req.user.availWeekly);
+});
 
-  if (index !== -1) {
-    req.user.availability.splice(index, 1);
-    res.send(req.user.availability);
-  } else {
-    res.status(404).send({ msg: 'Availability slot not found' });
+//friend status
+app.post('/api/getFriendStatuses', (req, res) => {
+  try {
+    console.log("🔍 Incoming request to fetch friend statuses...");
+
+    // Ensure req.user exists
+    if (!req.user) {
+      console.error("❌ ERROR: req.user is missing!");
+      return res.status(401).json({ error: 'Unauthorized - No user data available' });
+    }
+
+    // Ensure req.user.friends exists
+    if (!Array.isArray(req.user.friends) || req.user.friends.length === 0) {
+      console.error("❌ ERROR: No friends list found for user:", req.user.email);
+      return res.status(400).json({ error: 'Invalid or empty friends list' });
+    }
+
+    const { friends } = req.user;
+    console.log("📢 Fetching friend statuses for:", req.user.email, "Friends:", friends);
+
+    // Generate random statuses (Replace with real data if available)
+    const friendStatuses = {};
+    friends.forEach(friend => {
+      friendStatuses[friend] = Math.random() > 0.5 ? 'available' : 'busy';
+    });
+
+    const available = friends.filter(friend => friendStatuses[friend] === 'available');
+    const busy = friends.filter(friend => friendStatuses[friend] === 'busy');
+
+    console.log("✅ Friend statuses generated:", { available, busy });
+
+    res.json({ available, busy });
+  } catch (error) {
+    console.error("❌ ERROR: Fetching friend statuses failed:", error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
-
 
 
 // setAuthCookie in the HTTP response
