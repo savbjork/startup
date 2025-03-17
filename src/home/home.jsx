@@ -6,13 +6,13 @@ export function Home({ userName, token }) {
   const [busyFriend, setBusyFriend] = useState([]);
 
   useEffect(() => {
-    updateFriends(userName,token); // Fetch friends initially
-    const interval = setInterval(updateFriends(userName,token), 60000); // Refresh every minute
+    updateFriends(userName); // Fetch friends initially
+    const interval = setInterval(updateFriends(userName), 60000); // Refresh every minute
     return () => clearInterval(interval);
     
   }, [userName, token]);
 
-  async function updateFriends(user, authToken) {
+  async function updateFriends(user) {
     try {
       const response = await fetch('/api/getFriendStatuses', {
         method: 'POST',

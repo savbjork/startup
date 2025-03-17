@@ -109,7 +109,7 @@ async function createUser(email, password) {
     email: email,
     password: passwordHash,
     token: uuid.v4(),
-    friends: ['one', 'two'], // user now starts with two friends
+    friends: ['Example Friend One', 'Example Friend Two', 'Example Friend Three', 'Example Friend Four','Example Friend Five'], // user now starts with two friends
     availWeekly: [
       { day: 'Monday', start: '09:00', end: '11:00' },
       { day: 'Wednesday', start: '09:00', end: '11:00' },
@@ -180,7 +180,7 @@ apiRouter.delete('/deleteAvailabilityWeekly/:day/:start/:end', verifyAuth, (req,
 });
 
 //friend status
-app.post('/api/getFriendStatuses', (req, res) => {
+app.post('/api/getFriendStatuses', verifyAuth, (req, res) => {
   try {
     console.log("🔍 Incoming request to fetch friend statuses...");
 
