@@ -186,13 +186,13 @@ app.post('/api/getFriendStatuses', verifyAuth, (req, res) => {
 
     // Ensure req.user exists
     if (!req.user) {
-      console.error("❌ ERROR: req.user is missing!");
+      console.error("ERROR: req.user is missing!");
       return res.status(401).json({ error: 'Unauthorized - No user data available' });
     }
 
     // Ensure req.user.friends exists
     if (!Array.isArray(req.user.friends) || req.user.friends.length === 0) {
-      console.error("❌ ERROR: No friends list found for user:", req.user.email);
+      console.error("ERROR: No friends list found for user:", req.user.email);
       return res.status(400).json({ error: 'Invalid or empty friends list' });
     }
 
@@ -208,11 +208,11 @@ app.post('/api/getFriendStatuses', verifyAuth, (req, res) => {
     const available = friends.filter(friend => friendStatuses[friend] === 'available');
     const busy = friends.filter(friend => friendStatuses[friend] === 'busy');
 
-    console.log("✅ Friend statuses generated:", { available, busy });
+    console.log("Friend statuses generated:", { available, busy });
 
     res.json({ available, busy });
   } catch (error) {
-    console.error("❌ ERROR: Fetching friend statuses failed:", error);
+    console.error("ERROR: Fetching friend statuses failed:", error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
