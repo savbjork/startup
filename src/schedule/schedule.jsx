@@ -5,7 +5,7 @@ import { BsTrash3 } from "react-icons/bs";
 
 export function Schedule() {
   const [status, setStatus] = useState('BUSY');
-  const [avail, setAvail] = useState('');
+  const [availNow, setAvail] = useState('');
   const [weeklyAvailList, setWeeklyAvailList] = useState([]);
   const [dayInput, setDayInput] = useState('');
   const [startTimeInput, setStartTimeInput] = useState('');
@@ -18,7 +18,7 @@ export function Schedule() {
 
   useEffect(() => {
     setStatus(getStatus());
-  }, [avail, weeklyAvailList]);
+  }, [availNow, weeklyAvailList]);
 
   async function fetchAvailabilityNow() {
     try {
@@ -54,7 +54,7 @@ export function Schedule() {
 
   function getStatus() {
     const now = new Date();
-    const availableUntil = avail ? new Date(avail) : null;
+    const availableUntil = availNow ? new Date(availNow) : null;
     
     if (availableUntil && availableUntil > now) {
       return "AVAILABLE";
