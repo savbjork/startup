@@ -19,3 +19,12 @@
 
 ### 2/13
 - React is reactive!!: properties to components, state on components
+
+### 3/18 Testing
+- Jest backend
+- Playwright frontend: broswer driving
+
+### 3/25 Testing
+- remember to install packages in front and back end
+- run both front and back end
+- 
