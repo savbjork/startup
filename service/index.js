@@ -47,7 +47,7 @@ apiRouter.post('/auth/login', async (req, res) => {
       return;
     }
   }
-  res.status(401).send({ msg: 'ONE Unauthorized' });
+  res.status(401).send({ msg: 'Unauthorized' });
 });
 
 // DeleteAuth logout a user
@@ -73,18 +73,18 @@ const verifyAuth = async (req, res, next) => {
 
 // Get Friends for Logged-In User
 apiRouter.get('/getFriends', verifyAuth, async (req, res) => {
-  console.log("Getting friends for user:", req.user.email, req.user.friends);
-  const friends = await DB.getFriends(req.user.token);
+  console.log("Getting friends for user");
+  const friends = await DB.getFriends(req.cookies[authCookieName]);
   res.send(friends || []);
 });
 
 // Add a Friend for Logged-In User
 apiRouter.post('/addFriend', verifyAuth, (req, res) => {
-  console.log("Adding friend for user:", req.user.email, "->", req.body.name);
+  console.log("Adding friend for user, request body:", req.body);
   if (!req.body.name || req.user.friends.includes(req.body.name)) {
     return res.status(400).send({ msg: 'Invalid or existing friend' });
   }
-  friend = DB.addFriend(req.user.token, req.body.name);
+  friend = DB.addFriend(req.cookies[authCookieName], req.body.name);
   res.send(friend);
   // req.user.friends.push(req.body.name);
   // res.send(req.user.friends);
@@ -135,9 +135,9 @@ async function findUser(field, value) {
 //stuff for availability
 // Get current availability ("Available Now")
 apiRouter.get('/getAvailabilityNow', verifyAuth, async (req, res) => {
-  console.log("Fetching current availability for:", req.user.email);
-  availNow = DB.getAvailabilityNow(req.user.token);
-  res.send(availNow);
+  const data = await DB.getAvailabilityNow(req.cookies[authCookieName]);
+  console.log("Current availability:", data.availNow);
+  res.send(data.availNow || "");
 });
 
 // Set "Available Now" status
@@ -148,15 +148,15 @@ apiRouter.post('/setAvailabilityNow', verifyAuth, (req, res) => {
   }
   // req.user.availableUntil = req.body.availableUntil;
   // res.send({ availableUntil: req.user.availableUntil });
-  DB.addAvailabilityNow(req.user.token, req.body.availableUntil);
+  DB.addAvailabilityNow(req.cookies[authCookieName], req.body.availableUntil);
   res.send({ availableUntil: req.body.availableUntil });
 });
 
 // Get weekly availability
-apiRouter.get('/getAvailabilityWeekly', verifyAuth, (req, res) => {
-  console.log("Fetching weekly availability for:", req.user.email);
-  availWeekly = DB.getAvailabilityWeekly(req.user.token);
-  res.send(availWeekly);
+apiRouter.get('/getAvailabilityWeekly', verifyAuth, async (req, res) => {
+  data = await DB.getAvailabilityWeekly(req.cookies[authCookieName]);
+  console.log("Weekly availability:", data.availWeekly);
+  res.send(data.availWeekly || []);
   //res.send(req.user.availWeekly || []);
 });
 
@@ -170,12 +170,12 @@ apiRouter.post('/addAvailabilityWeekly', verifyAuth, (req, res) => {
     req.user.availWeekly = [];
   }
 
-  DB.addAvailabilityWeekly(req.user.token, {
+  DB.addAvailabilityWeekly(req.cookies[authCookieName], {
     day: req.body.day,
     start: req.body.start,
     end: req.body.end
   });
-  res.send(DB.getAvailabilityWeekly(req.user.token));
+  res.send(DB.getAvailabilityWeekly(req.cookies[authCookieName]));
   // req.user.availWeekly.push({
   //   day: req.body.day,
   //   start: req.body.start,
@@ -191,12 +191,12 @@ apiRouter.delete('/deleteAvailabilityWeekly/:day/:start/:end', verifyAuth, (req,
   if (!req.user.availWeekly) {
     return res.status(404).send({ msg: 'No availability found' });
   }
-  DB.deleteAvailabilityWeekly(req.user.token, {
+  DB.deleteAvailabilityWeekly(req.cookies[authCookieName], {
     day: day,
     start: start,
     end: end
   });
-  res.send(DB.getAvailabilityWeekly(req.user.token));
+  res.send(DB.getAvailabilityWeekly(req.cookies[authCookieName]));
   // req.user.availWeekly = req.user.availWeekly.filter(slot =>
   //   !(slot.day === day && slot.start === start && slot.end === end)
   // );
@@ -207,33 +207,31 @@ apiRouter.delete('/deleteAvailabilityWeekly/:day/:start/:end', verifyAuth, (req,
 app.post('/api/getFriendStatuses', verifyAuth, (req, res) => {
   try {
     console.log("Incoming request to fetch friend statuses...");
-  if (req.user.token) {
-    DB.getFriends(req.user.token)
-    .then(friends => {
-      const friendStatuses = friends.map(friend => ({
-        name: friend.name,
-        status: friend.status,
-      }));
-      return friendStatuses;
-    })
-    .then(friendStatuses => {
-      const available = friendStatuses.filter(friend => friend.status === 'available');
-      const busy = friendStatuses.filter(friend => friend.status === 'busy');
-      return { available, busy };
-    })
-    .then(({ available, busy }) => {
-      console.log("Friend statuses fetched successfully.");
-      res.json({ available, busy });
-    })
-    .catch(error => {
+    console.log("Request body:", req.body);
+    console.log("Request headers:", req.headers);
+    if (req.cookies[authCookieName]) {
+      DB.getFriends(req.cookies[authCookieName])
+      .then(friends => {
+        const friendStatuses = friends.map(friend => ({
+          name: friend.name,
+          status: friend.status,
+        }));
+        return friendStatuses;
+      })
+      .then(friendStatuses => {
+        const available = friendStatuses.filter(friend => friend.status === 'available');
+        const busy = friendStatuses.filter(friend => friend.status === 'busy');
+        return { available, busy };
+      })
+      .then(({ available, busy }) => {
+        console.log("Friend statuses fetched successfully.");
+        res.json({ available, busy });
+      })
+    }
+  } catch (error) {
       console.error("ERROR: Fetching friend statuses failed:", error);
       res.status(500).json({ error: 'Internal server error' });
-    });
   }
-    console.error("ERROR: Fetching friend statuses failed:", error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-    
 });
 
 // setAuthCookie in the HTTP response

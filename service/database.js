@@ -34,7 +34,7 @@ async function updateUser(user) {
 }
 
 async function getAvailabilityNow(token) {
-  return userCollection.findOne({ availNow: availNow });
+  return userCollection.findOne({ token: token }, { projection: { availNow: 1 } });
 }
 
 async function addAvailabilityNow(token, time) {

@@ -21,8 +21,8 @@ export function Friends() {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("Fetched friends:", data); // ✅ Debugging output
-      setFriends(Array.isArray(data) ? data : []); // ✅ Ensure data is an array
+      console.log("Fetched friends:", data);
+      setFriends(data.friends || []);
     } catch (error) {
       console.error("Error fetching friends:", error);
     }
