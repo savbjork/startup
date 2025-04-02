@@ -5,36 +5,36 @@ import { BsTrash3 } from "react-icons/bs";
 
 export function Schedule() {
   const [status, setStatus] = useState('BUSY');
-  const [availNow, setAvail] = useState('');
+  //const [availNow, setAvail] = useState('');
   const [weeklyAvailList, setWeeklyAvailList] = useState([]);
   const [dayInput, setDayInput] = useState('');
   const [startTimeInput, setStartTimeInput] = useState('');
   const [endTimeInput, setEndTimeInput] = useState('');
 
   useEffect(() => {
-    fetchAvailabilityNow();
+    //fetchAvailabilityNow();
     fetchAvailabilityWeekly();
   }, []);
 
   useEffect(() => {
     setStatus(getStatus());
-  }, [availNow, weeklyAvailList]);
+  }, [weeklyAvailList]);
 
-  async function fetchAvailabilityNow() {
-    try {
-      const response = await fetch('/api/getAvailabilityNow', {
-        method: 'GET',
-        credentials: 'include',
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      setAvail(data.availableUntil || '');
-    } catch (error) {
-      console.error("Error fetching current availability:", error);
-    }
-  }
+  // async function fetchAvailabilityNow() {
+  //   try {
+  //     const response = await fetch('/api/getAvailabilityNow', {
+  //       method: 'GET',
+  //       credentials: 'include',
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+  //     const data = await response.json();
+  //     setAvail(data.availableUntil || '');
+  //   } catch (error) {
+  //     console.error("Error fetching current availability:", error);
+  //   }
+  // }
 
   async function fetchAvailabilityWeekly() {
     try {
@@ -54,11 +54,11 @@ export function Schedule() {
 
   function getStatus() {
     const now = new Date();
-    const availableUntil = availNow ? new Date(availNow) : null;
+    // const availableUntil = availNow ? new Date(availNow) : null;
     
-    if (availableUntil && availableUntil > now) {
-      return "AVAILABLE";
-    }
+    // if (availableUntil && availableUntil > now) {
+    //   return "AVAILABLE";
+    // }
   
     const currentDay = now.toLocaleDateString('en-US', { weekday: 'long' });
     const currentTime = now.getHours() * 60 + now.getMinutes(); // Convert to minutes for comparison
@@ -90,7 +90,7 @@ export function Schedule() {
         body: JSON.stringify({ availableUntil: timeInput }),
       });
   
-      setAvail(timeInput); // ✅ Update availability state
+      setAvail(timeInput);
     } catch (error) {
       console.error("Error setting current availability:", error);
     }

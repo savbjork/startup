@@ -91,8 +91,8 @@ export function Friends() {
                 </thead>
                 <tbody>
                   {friends.map((friend, index) => (
-                    <tr key={index}> {/* ✅ Changed key to index for reliability */}
-                      <td>{friend.name || friend}</td> {/* ✅ Handle case where API returns strings instead of objects */}
+                    <tr key={index}>
+                      <td>{friend.name || friend}</td>
                       <td className="text-end">
                         <BsTrash3 size="1rem" className="cursor-pointer" onClick={() => deleteFriend(friend.name || friend)} />
                       </td>
