@@ -124,6 +124,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [x] **Stores credentials in MongoDB** - I did complete this part of the deliverable.
 - [x] **Restricts functionality based on authentication** - I did complete this part of the deliverable.
 
+For testing, your friends have to be already existing users! All users come with test friends and sample weekly availability that can be edited and changed. 
+
 ## 🚀 WebSocket deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
