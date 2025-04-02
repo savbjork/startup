@@ -110,7 +110,10 @@ export function Schedule() {
         throw new Error("Failed to add weekly availability");
       }
       const updatedAvailability = await response.json();
+      //console.log("Updated availability:", updatedAvailability);
       setWeeklyAvailList(updatedAvailability);
+      fetchAvailabilityWeekly();
+      //console.log("Weekly availability list:", weeklyAvailList);
       setDayInput('');
       setStartTimeInput('');
       setEndTimeInput('');
@@ -130,6 +133,7 @@ export function Schedule() {
       }
       const updatedAvailability = await response.json();
       setWeeklyAvailList(updatedAvailability);
+      fetchAvailabilityWeekly();
     } catch (error) {
       console.error("Error deleting weekly availability:", error);
     }

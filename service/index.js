@@ -180,6 +180,7 @@ apiRouter.post('/addAvailabilityWeekly', verifyAuth, async (req, res) => {
     start: req.body.start,
     end: req.body.end
   });
+  console.log("Updated weekly availability post add:", data.availWeekly);
   res.send(data.availWeekly);
   // req.user.availWeekly.push({
   //   day: req.body.day,
@@ -198,6 +199,7 @@ apiRouter.delete('/deleteAvailabilityWeekly/:day/:start/:end', verifyAuth, async
     start: start,
     end: end
   });
+  console.log("Updated weekly availability post delete:", data.availWeekly);
   res.send(data.availWeekly);
   // req.user.availWeekly = req.user.availWeekly.filter(slot =>
   //   !(slot.day === day && slot.start === start && slot.end === end)
