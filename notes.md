@@ -99,3 +99,42 @@ Handling the toggling of the checkboxes was particularly interesting.
   ))}
 </div>
 ```
+
+const exampleUsers = [
+      {
+      email: "Example Friend One",
+      password: "hashedPassword1",
+      token: "token1",
+      friends: ["Example Friend Two", "Example Friend Three"],
+      availWeekly: [
+      { day: "Monday", start: "09:00", end: "11:00" },
+      { day: "Wednesday", start: "09:00", end: "11:00" },
+      { day: "Friday", start: "09:00", end: "11:00" },
+      ],
+      availNow: "",
+      },
+      {
+      email: "Example Friend Two",
+      password: "hashedPassword2", 
+      token: "token2",
+      friends: ["Example Friend One", "Example Friend Three"],
+      availWeekly: [
+      { day: "Monday", start: "09:00", end: "11:00" },
+      { day: "Wednesday", start: "09:00", end: "11:00" },
+      { day: "Friday", start: "09:00", end: "11:00" },
+      ],
+      availNow: "",
+      },
+      {
+      email: "Example Friend Three",
+      password: "hashedPassword3",
+      token: "token3",
+      friends: ["Example Friend One", "Example Friend Two"],
+      availWeekly: [
+      { day: "Monday", start: "09:00", end: "11:00" },
+      { day: "Wednesday", start: "09:00", end: "11:00" },
+      { day: "Friday", start: "09:00", end: "11:00" },
+      ],
+      availNow: "",
+      },
+    ];

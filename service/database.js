@@ -41,8 +41,9 @@ async function addAvailabilityNow(token, time) {
   return userCollection.updateOne({ token: token }, { $set: { availNow: time } });
 }
 
-async function addFriend(friend) {
-  return userCollection.updateOne({ email: friend.email }, { $push: { friends: friend } });
+async function addFriend(token, friend) {
+  userCollection.updateOne({ token: token}, { $push: { friends: friend } });
+  return userCollection.findOne({ token: token }, { projection: { friends: 1 } });
 }
 
 async function getFriends(token) {
@@ -58,30 +59,33 @@ async function getAvailabilityWeekly(token) {
 }
 
 async function addAvailabilityWeekly(token, availability) {
-  return userCollection.updateOne({ token: token }, { $push: { availWeekly: availability } });
+  userCollection.updateOne({ token: token }, { $push: { availWeekly: availability } });
+  return userCollection.findOne({ token: token }, { projection: { availWeekly: 1 } });
+
 }
 
 async function deleteAvailabilityWeekly(token, availability) {
-  return userCollection.updateOne({ token: token }, { $pull: { availWeekly: availability } });
+  userCollection.updateOne({ token: token }, { $pull: { availWeekly: availability } });
+  return userCollection.findOne({ token: token }, { projection: { availWeekly: 1 } });
 }
 
 async function getStatus(name) {
-  const availNow = await userCollection.findOne({ name: name }, { projection: { availNow: 1 } });
-  const now = new Date();
-  if (availNow && availNow > now) {
-    return "AVAILABLE";
-  }
+  // const availNow = await userCollection.findOne({ name: name }, { projection: { availNow: 1 } });
+  // const now = new Date();
+  // if (availNow && availNow > now) {
+  //   return "AVAILABLE";
+  // }
   const availWeekly = await userCollection.findOne({ name: name }, { projection: { availWeekly: 1 } });
   if (availWeekly) {
     for (const availability of availWeekly) {
       const start = new Date(availability.start);
       const end = new Date(availability.end);
       if (start <= now && now <= end) {
-        return "AVAILABLE";
+        return {status: "AVAILABLE"};
       }
     }
   }
-  return "BUSY";
+  return {status: "BUSY"};
 }
 
 module.exports = {

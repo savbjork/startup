@@ -151,28 +151,31 @@ export function Schedule() {
         <br />
         <div className="row p-2">
           {weeklyAvailList.length > 0 ? (
-            <table className="table bg-light text-dark">
-              <thead className="table-secondary">
-                <tr>
-                  <th>Day</th>
-                  <th>Start</th>
-                  <th>End</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {weeklyAvailList.map((slot, index) => (
-                  <tr key={index}>
-                    <td>{slot.day}</td>
-                    <td>{slot.start}</td>
-                    <td>{slot.end}</td>
-                    <td>
-                      <BsTrash3 size="1rem" className="text-right" onClick={() => deleteAvailability(slot.day, slot.start, slot.end)} />
-                    </td>
+            <div>
+              <h4 className="text-center">Weekly Availability</h4>
+              <table className="table bg-light text-dark">
+                <thead className="table-secondary">
+                  <tr>
+                    <th>Day</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {weeklyAvailList.map((slot, index) => (
+                    <tr key={index}>
+                      <td>{slot.day}</td>
+                      <td>{slot.start}</td>
+                      <td>{slot.end}</td>
+                      <td>
+                        <BsTrash3 size="1rem" className="text-right" onClick={() => deleteAvailability(slot.day, slot.start, slot.end)} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           ) : (
             <p className="text-center text-light">No weekly availability slots found.</p>
           )}

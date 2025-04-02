@@ -45,8 +45,8 @@ export function Friends() {
       }
   
       const updatedFriends = await response.json();
-      console.log("Updated friends list:", updatedFriends); // ✅ Debugging output
-      setFriends(Array.isArray(updatedFriends) ? updatedFriends : []); // ✅ Ensure correct UI update
+      console.log("Updated friends list:", updatedFriends);
+      setFriends(updatedFriends.friends); 
   
       document.getElementById('addFriend').value = ''; // Clear input
     } catch (error) {
@@ -66,8 +66,8 @@ export function Friends() {
       }
 
       const updatedFriends = await response.json();
-      console.log("Updated friends list after delete:", updatedFriends); // ✅ Debugging output
-      setFriends(Array.isArray(updatedFriends.friends) ? updatedFriends.friends : []); // ✅ Update UI immediately
+      console.log("Updated friends list after delete:", updatedFriends); 
+      setFriends(updatedFriends.friends);
     } catch (error) {
       console.error("Error deleting friend:", error);
     }
