@@ -51,7 +51,8 @@ async function getFriends(token) {
 }
 
 async function deleteFriend(token, friend) {
-  return userCollection.updateOne({ token: token }, { $pull: { friends: friend } });
+  userCollection.updateOne({ token: token }, { $pull: { friends: friend } });
+  return userCollection.findOne({ token: token }, { projection: { friends: 1 } });
 }
 
 async function getAvailabilityWeekly(token) {
@@ -71,17 +72,27 @@ async function deleteAvailabilityWeekly(token, availability) {
 
 async function getStatus(name) {
   // const availNow = await userCollection.findOne({ name: name }, { projection: { availNow: 1 } });
-  // const now = new Date();
+  const now = new Date(new Date().toLocaleString("en-US", { timeZone: "UTC" }));
   // if (availNow && availNow > now) {
   //   return "AVAILABLE";
   // }
-  const availWeekly = await userCollection.findOne({ name: name }, { projection: { availWeekly: 1 } });
+  const availWeekly = await userCollection.findOne({ email: name }, { projection: { availWeekly: 1 } });
   if (availWeekly) {
-    for (const availability of availWeekly) {
-      const start = new Date(availability.start);
-      const end = new Date(availability.end);
+    console.log(availWeekly);
+    console.log(availWeekly.availWeekly.length);
+    for (const availability of availWeekly.availWeekly) {
+      const today = now.toISOString().split('T')[0];
+      const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const todayDayOfWeek = daysOfWeek[now.getDay()]; // Get the current day of the week as a name
+      if (availability.day === todayDayOfWeek) {
+      const start = new Date(`${today}T${availability.start}:00Z`);
+      const end = new Date(`${today}T${availability.end}:00Z`);
+      console.log(start);
+      console.log(end);
+      console.log(now);
       if (start <= now && now <= end) {
         return {status: "AVAILABLE"};
+      }
       }
     }
   }

@@ -45,8 +45,9 @@ export function Friends() {
       }
   
       const updatedFriends = await response.json();
-      console.log("Updated friends list:", updatedFriends);
-      setFriends(updatedFriends.friends); 
+      fetchFriends(); // Fetch updated friends list
+      // console.log("Updated friends list:", updatedFriends);
+      // setFriends(updatedFriends); 
   
       document.getElementById('addFriend').value = ''; // Clear input
     } catch (error) {
@@ -66,8 +67,9 @@ export function Friends() {
       }
 
       const updatedFriends = await response.json();
-      console.log("Updated friends list after delete:", updatedFriends); 
-      setFriends(updatedFriends.friends);
+      fetchFriends(); // Fetch updated friends list
+      // console.log("Updated friends list after delete:", updatedFriends); 
+      // setFriends(updatedFriends);
     } catch (error) {
       console.error("Error deleting friend:", error);
     }

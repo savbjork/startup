@@ -59,7 +59,7 @@ export function Home({ userName, token }) {
   async function updateFriends(user) {
     try {
       const response = await fetch('/api/getFriendStatuses', {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`, // Securely send the token

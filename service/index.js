@@ -90,6 +90,7 @@ apiRouter.post('/addFriend', verifyAuth, async (req, res) => {
     return res.status(404).send({ msg: 'User not found' });
   }
   const data = await DB.addFriend(req.cookies[authCookieName], req.body.name);
+  console.log("Adding friend, updated friends:", data);
   res.send(data.friends);
   // req.user.friends.push(req.body.name);
   // res.send(req.user.friends);
@@ -104,9 +105,8 @@ apiRouter.delete('/deleteFriend/:friendName', verifyAuth, async (req, res) => {
   
   if (index !== -1) {
     //req.user.friends.splice(index, 1);
-    DB.deleteFriend(req.cookies[authCookieName], friendName);
-    const data = await DB.getFriends(req.cookies[authCookieName])
-    res.send({ msg: `${friendName} removed`, friends: data.friends });
+    const data = await DB.deleteFriend(req.cookies[authCookieName], friendName);
+    res.send(data.friends);
   } else {
     res.status(404).send({ msg: 'Friend not found' });
   }
@@ -206,13 +206,13 @@ apiRouter.delete('/deleteAvailabilityWeekly/:day/:start/:end', verifyAuth, async
 });
 
 //friend status
-app.post('/api/getFriendStatuses', verifyAuth, async (req, res) => {
+app.get('/api/getFriendStatuses', verifyAuth, async (req, res) => {
   console.log("Fetching friend statuses...");
   const data = await DB.getFriends(req.cookies[authCookieName]);
   console.log("Friend data:", data.friends);
   const friendStatuses = await Promise.all(data.friends.map(async friend => ({
     name: friend,
-    status: await DB.getStatus(friend),
+    status: (await DB.getStatus(friend)).status,
   })));
   console.log("Friend statuses:", friendStatuses);
   const available = friendStatuses
@@ -221,7 +221,7 @@ app.post('/api/getFriendStatuses', verifyAuth, async (req, res) => {
   const busy = friendStatuses
     .filter(friend => friend.status === 'BUSY')
     .map(friend => friend.name);
-  res.json({ available, busy });
+  res.send({available, busy});
 });
 
 // setAuthCookie in the HTTP response
