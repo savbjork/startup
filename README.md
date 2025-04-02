@@ -116,7 +116,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 ## 🚀 DB/Login deliverable
 
-For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed. Basically, I moved all my storage to the Mongo DB.
 
 - [x] **User registration** - I did complete this part of the deliverable.
 - [x] **User login and logout** - I did complete this part of the deliverable.
