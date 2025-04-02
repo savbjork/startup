@@ -72,7 +72,9 @@ export function Home({ userName, token }) {
         throw new Error("Failed to fetch friend statuses");
       }
 
+      console.log("Response status: " + response.status);
       const data = await response.json();
+      
 
       const avail = data.available.map(friend => (
         <li className="list-group-item" key={friend}>{friend}</li>

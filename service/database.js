@@ -3,6 +3,7 @@ const config = require('./dbConfig.json');
 
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url);
+
 const db = client.db('startup');
 const userCollection = db.collection('user');
 
@@ -73,7 +74,7 @@ async function deleteAvailabilityWeekly(token, availability) {
 async function getStatus(name) {
   // const availNow = await userCollection.findOne({ name: name }, { projection: { availNow: 1 } });
   //const now = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Denver" }));
-  const now = new Date();
+  const now = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Denver" }));
   // if (availNow && availNow > now) {
   //   return "AVAILABLE";
   // }
@@ -89,10 +90,11 @@ async function getStatus(name) {
         const end = new Date(now);
         end.setHours(availability.end.split(':')[0], availability.end.split(':')[1], 0, 0);
         //const end = new Date(`${today}T${availability.end}:00`);
-        console.log(start);
-        console.log(end);
-        console.log(now);
+        console.log("start: ", start);
+        console.log("end: ", end);
+        console.log("now: ", now);
         if (start <= now.getTime() && now.getTime() <= end) {
+          console.log("AVAILABLE", name);
           return {status: "AVAILABLE"};
         }
       }
