@@ -80,6 +80,19 @@ apiRouter.get('/getFriends', verifyAuth, async (req, res) => {
   res.send(friends || []);
 });
 
+// Get Friends Fast
+apiRouter.get('/getFriendsByEmail/:email', async (req, res) => {
+  console.log("Getting friends for user by email:", req.params.email);
+  const user = await findUser('email', req.params.email);
+  if (!user) {
+    return res.status(404).send({ msg: 'User not found' });
+  }
+  console.log("User found, email:", user.email);
+  const data = await DB.getFriendsByEmail(user.email);
+  console.log("Friends found:", data.friends);
+  res.send(data.friends || []);
+});
+
 // Add a Friend for Logged-In User
 apiRouter.post('/addFriend', verifyAuth, async (req, res) => {
   console.log("Adding friend for user, request body:", req.body);
@@ -236,7 +249,7 @@ function setAuthCookie(res, authToken) {
   });
 }
 
-app.listen(port, () => {
+const httpService = app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
 

@@ -51,6 +51,10 @@ async function getFriends(token) {
   return userCollection.findOne({ token: token }, { projection: { friends: 1 } });
 }
 
+async function getFriendsByEmail(email) {
+  return userCollection.findOne({ email: email }, { projection: { friends: 1 } });
+}
+
 async function deleteFriend(token, friend) {
   userCollection.updateOne({ token: token }, { $pull: { friends: friend } });
   return userCollection.findOne({ token: token }, { projection: { friends: 1 } });
@@ -112,6 +116,7 @@ module.exports = {
   addAvailabilityNow,
   addFriend,
   getFriends,
+  getFriendsByEmail,
   deleteFriend,
   getAvailabilityWeekly,
   addAvailabilityWeekly,

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Chat, ChatClient } from './chat';
 import './home.css';
 
 const api_key = import.meta.env.VITE_REACT_APP_CALENDARIFIC_AUTH;
@@ -94,6 +95,20 @@ export function Home({ userName, token }) {
     <main className="status container-fluid p-0 text-light">
       <div className="container">
         <h2 className="text-center">WELCOME {userName}</h2>
+        {holiday.length > 0 && (
+          <>
+            <h4 className="text-center">Need a reason to call?</h4>
+            <h4 className="text-center">It is {holiday}!</h4>
+            <br />
+          </>
+        )}
+        {holiday.length === 0 && (
+          <>
+            <h4 className="text-center">No holiday today, just call to say hi!</h4>
+            <br />
+          </>
+        )}  
+        <br />
         {availFriend.length > 0 && (
           <>
             <h4 className="text-center">Your friends are free to chat!</h4>
@@ -115,20 +130,17 @@ export function Home({ userName, token }) {
           </div>
         </div>
         <br />
-        {holiday.length > 0 && (
-          <>
-            <h4 className="text-center">Need a reason to call?</h4>
-            <h4 className="text-center">It is {holiday}!</h4>
-            <br />
-          </>
-        )}
-        {holiday.length === 0 && (
-          <>
-            <h4 className="text-center">No holiday today, just call to say hi!</h4>
-            <br />
-          </>
-        )}  
+        
+        <div className="container">
+        {(() => {
+          const chatClient = React.useMemo(() => new ChatClient(), []);
+          return <Chat webSocket={chatClient} userName={userName} />;
+        })()}
+        </div>
       </div>
+      
     </main>
   );
 }
+
+//<h4 className="text-center mt-4">Chat with Friends</h4>
