@@ -112,24 +112,25 @@ export class ChatClient {
     this.socket.onmessage = async (event) => {
       const text = await event.data.text();
       const chat = JSON.parse(text);
-
       //get friends
-      const response = await fetch(`/api/getFriendsByEmail/${chat.name}`, {
-        method: 'GET',
-        credentials: 'include',
-      });
+      // const response = await fetch('/api/getFriendByEmail/${email}', {
+      //   method: 'GET',
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch friends");
-      }
+      //   },
+      // });
 
-      const data = await response.json();
-      //friends = data.friends;
-      console.log("Fetched friends:", data);
-      if (chat.name  in data) {
-        this.notifyObservers('received', chat.name, chat.msg);
-      }
-      // this.notifyObservers('received', chat.name, chat.msg);
+      // if (!response.ok) {
+      //   throw new Error("Failed to fetch friend statuses");
+      // }
+
+      // console.log("Response status: " + response.status);
+      // const data = await response.json();
+
+      // friends = data.friends
+      // if (chat.name  in friends {
+      //   this.notifyObservers('received', chat.name, chat.msg);
+      // }
+      this.notifyObservers('received', chat.name, chat.msg);
     };
 
     // If the webSocket is closed then disable the interface
