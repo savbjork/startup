@@ -132,9 +132,9 @@ export function Home({ userName, token }) {
         <br />
         
         <div className="container">
-        <h4 className="text-center text-black mt-4">What is everyone saying?</h4>
+        <h4 className="text-center text-black mt-4">What are your friends saying?</h4>
         {(() => {
-          const chatClient = React.useMemo(() => new ChatClient(), []);
+          const chatClient = React.useMemo(() => new ChatClient(userName), [userName]);
           return <Chat webSocket={chatClient} userName={userName} />;
         })()}
         </div>

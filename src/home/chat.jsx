@@ -2,7 +2,7 @@ import React from 'react';
 //import ReactDOM from 'react-dom/client';
 
 export function Chat({ webSocket, userName }) {
-  const [name, setName] = userName;
+  const name = userName;
   //<Name updateName={userName} />
   console.log('Chat username: ', userName);
 
@@ -96,7 +96,8 @@ export class ChatClient {
   observers = [];
   connected = false;
 
-  constructor() {
+  constructor(userName) {
+    this.userName = userName;
     // Adjust the webSocket protocol to what is being used for HTTP
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
     this.socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
@@ -113,20 +114,21 @@ export class ChatClient {
       const text = await event.data.text();
       const chat = JSON.parse(text);
       //get friends
-      // const response = await fetch(`/api/getFriendsByEmail/${chat.name}`, {
-      //   method: 'GET',
-      //   credentials: 'include',
-      // });
-      const response = await fetch(`/api/getFriends`, {
+      const response = await fetch(`/api/getFriendsByEmail/${this.userName}`, {
         method: 'GET',
         credentials: 'include',
       });
+      // const response = await fetch(`/api/getFriends`, {
+      //   method: 'GET',
+      //   credentials: 'include',
+      // });
 
       if (!response.ok) {
         throw new Error("Failed to fetch friends");
       }
       const data = await response.json();
       //friends = data.friends;
+      console.log("Username:", this.userName);
       console.log("Fetched friends:", data);
 
       // const trimmedFrom = chat.name.toLowerCase();
@@ -135,14 +137,18 @@ export class ChatClient {
       // if (!friendList.includes(trimmedFrom)) {
       //   console.log("Chat name not in friends:", chat.name);
       // }
-      // if (chat.name in data) {
-      //   console.log("Chat name in friends:", chat.name);
-      //   //this.notifyObservers('received', chat.name, chat.msg);
-      // } else{
-      //   console.log("Chat name not in friends:", chat.name);
-      // }
+      if (data.includes(chat.name)) { 
+        console.log("Chat name in friends:", chat.name);
+        this.notifyObservers('received', chat.name, chat.msg);
+      } else{
+        if (chat.name !== this.userName) {
+          console.log("Chat name not in friends:", chat.name);
+        }
+        //this.notifyObservers('received', chat.name, chat.msg);
+        //console.log("Chat name is me:", chat.name);
+      }
 
-      this.notifyObservers('received', chat.name, chat.msg);
+      //this.notifyObservers('received', chat.name, chat.msg);
     };
 
     // If the webSocket is closed then disable the interface
