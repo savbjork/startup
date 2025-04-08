@@ -56,7 +56,7 @@ function Message({ name, webSocket }) {
   return (
     <main>
       <fieldset id='chat-controls'>
-      <div className="input-group mb-3">
+      <div className="input-group mb-3 text-black">
         <input disabled={disabled} onKeyDown={doneMessage} value={message} onChange={(e) => setMessage(e.target.value)} type="text" class="form-control" placeholder="Send a message!" aria-label="message" aria-describedby="basic-addon2"/>
         <div className="input-group-append">
         <button disabled={disabled || !message} onClick={sendMsg} type="button" class="btn btn-outline-secondary" >Send</button>
@@ -113,23 +113,30 @@ export class ChatClient {
       const text = await event.data.text();
       const chat = JSON.parse(text);
       //get friends
-      // const response = await fetch('/api/getFriendByEmail/${email}', {
+      // const response = await fetch(`/api/getFriendsByEmail/${chat.name}`, {
       //   method: 'GET',
-
-      //   },
+      //   credentials: 'include',
+      // });
+      // const response = await fetch(`/api/getFriends`, {
+      //   method: 'GET',
+      //   credentials: 'include',
       // });
 
       // if (!response.ok) {
-      //   throw new Error("Failed to fetch friend statuses");
+      //   throw new Error("Failed to fetch friends");
       // }
 
-      // console.log("Response status: " + response.status);
       // const data = await response.json();
-
-      // friends = data.friends
-      // if (chat.name  in friends {
+      // //friends = data.friends;
+      // console.log("Fetched friends:", data);
+      // if (chat.name in data) {
+      //   console.log("Chat name in friends:", chat.name);
       //   this.notifyObservers('received', chat.name, chat.msg);
+      // } else{
+      //   console.log("Chat name not in friends:", chat.name);
       // }
+      //console.log("Chat name not in friends:", chat.name);
+
       this.notifyObservers('received', chat.name, chat.msg);
     };
 
