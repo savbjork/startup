@@ -117,25 +117,30 @@ export class ChatClient {
       //   method: 'GET',
       //   credentials: 'include',
       // });
-      // const response = await fetch(`/api/getFriends`, {
-      //   method: 'GET',
-      //   credentials: 'include',
-      // });
+      const response = await fetch(`/api/getFriends`, {
+        method: 'GET',
+        credentials: 'include',
+      });
 
-      // if (!response.ok) {
-      //   throw new Error("Failed to fetch friends");
+      if (!response.ok) {
+        throw new Error("Failed to fetch friends");
+      }
+      const data = await response.json();
+      //friends = data.friends;
+      console.log("Fetched friends:", data);
+
+      // const trimmedFrom = chat.name.toLowerCase();
+      // const friendList = friends.map(f => f.toLowerCase());
+
+      // if (!friendList.includes(trimmedFrom)) {
+      //   console.log("Chat name not in friends:", chat.name);
       // }
-
-      // const data = await response.json();
-      // //friends = data.friends;
-      // console.log("Fetched friends:", data);
       // if (chat.name in data) {
       //   console.log("Chat name in friends:", chat.name);
-      //   this.notifyObservers('received', chat.name, chat.msg);
+      //   //this.notifyObservers('received', chat.name, chat.msg);
       // } else{
       //   console.log("Chat name not in friends:", chat.name);
       // }
-      //console.log("Chat name not in friends:", chat.name);
 
       this.notifyObservers('received', chat.name, chat.msg);
     };
